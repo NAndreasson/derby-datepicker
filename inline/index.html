@@ -1,0 +1,62 @@
+<index: element="datepicker">
+  <div class="datepicker datepicker-inline">
+    {{if view === 'days'}}
+    <view name="days"></view>
+    {{/if}}
+    {{if view === 'months'}}
+      <view name="months"></view>
+    {{/if}}
+  </div>
+
+<months:>
+  <div class="datepicker-months">
+    <table class="table-condensed">
+      <thead>
+        <tr>
+          <th class="prev" style="visibility: visible;">«</th>
+          <th colspan="5" class="datepicker-switch">{{getYear(currentDate)}}</th>
+          <th class="next" style="visibility: visible;">»</th>
+        </tr
+      ></thead>
+      <tbody>
+        <tr>
+          <td colspan="7">
+          {{each months as #month}}
+            <span class="month">{{#month.abbr}}</span>
+          {{/each}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+<days:>
+  <div class="datepicker-days">
+    <table class="table-condensed">
+      <thead>
+        <tr>
+          <th on-click="prevMonth()" class="prev" style="visibility: visible;">«</th>
+          <th colspan="5" on-click="monthView()" class="datepicker-switch">{{getMonth(currentDate)}} {{getYear(currentDate)}}</th>
+          <th on-click="nextMonth()" class="next" style="visibility: visible;">»</th>
+        </tr>
+        <tr>
+          <th class="dow">Su</th>
+          <th class="dow">Mo</th>
+          <th class="dow">Tu</th>
+          <th class="dow">We</th>
+          <th class="dow">Th</th>
+          <th class="dow">Fr</th>
+          <th class="dow">Sa</th>
+          </tr>
+      </thead>
+      <tbody>
+      {{each weeks as #datesInWeek, #i}}
+        <tr>
+        {{each #datesInWeek as #date, #j}}
+          <td on-click="select(#i, #j)" class="day {{if !#date.thisMonth}}old{{/if}} {{if active.weekIndex === #i && active.dateIndex === #j}}active{{/if}}">{{#date.date}}</td>
+        {{/each}}
+        </tr>
+      {{/each}}
+      </tbody>
+    </table>
+  </div>
