@@ -22,7 +22,7 @@
         <tr>
           <td colspan="7">
           {{each months as #month}}
-            <span class="month">{{#month.abbr}}</span>
+            <span on-click="gotoDayView(#month.date)" class="month {{if activeMonth(active, #month.date)}}active{{/if}}">{{#month.abbr}}</span>
           {{/each}}
           </td>
         </tr>
@@ -53,7 +53,7 @@
       {{each weeks as #datesInWeek, #i}}
         <tr>
         {{each #datesInWeek as #date, #j}}
-          <td on-click="select(#i, #j)" class="day {{if !#date.thisMonth}}old{{/if}} {{if active.weekIndex === #i && active.dateIndex === #j}}active{{/if}}">{{#date.date}}</td>
+          <td on-click="select(#date)" class="day {{if !#date.thisMonth}}old{{/if}} {{if activeDate(active, #date.fullDate)}}active{{/if}}">{{#date.date}}</td>
         {{/each}}
         </tr>
       {{/each}}

@@ -13,6 +13,14 @@ InlineDatepicker.prototype.init = function(model) {
   this.dayView();
 };
 
+InlineDatepicker.prototype.gotoDayView = function(date) {
+  var date = moment(date);
+
+  this.updateCurrentDate(date);
+  this.createDayView(date.year(), date.month());
+  this.dayView();
+};
+
 // TODO add month as argument (if no month passed, use currentDate)
 InlineDatepicker.prototype.dayView = function() {
   var model = this.model;
@@ -35,7 +43,7 @@ InlineDatepicker.prototype.createMonthView = function() {
   var date = moment({ month: 0 });
 
   for (var i = 0; i < 12; i++) {
-    months.push({ abbr: date.format('MMM') });
+    months.push({ abbr: date.format('MMM'), date: date.format('YYYY-MM') });
     date.add('months', 1);
   }
 
@@ -63,20 +71,23 @@ InlineDatepicker.prototype.getYear = function(currentDate) {
 InlineDatepicker.prototype.select = function(selectedDate) {
   var model = this.model;
 
-  // format a date and set to active?
-
-
-  model.set('active', {
-    weekIndex: weekIndex,
-    dateIndex: dateIndex
-  });
+  model.set('active', selectedDate.fullDate);
 };
 
-InlineDatepicker.prototype.activeDate = function(weekIndex, dateIndex) {
+InlineDatepicker.prototype.activeDate = function(active, date) {
   var model = this.model;
   var active = model.get('active');
 
-  return active.weekIndex === weekIndex && acive.dateIndex === dateIndex;
+  return active === date;
+};
+
+InlineDatepicker.prototype.activeMonth = function(active, date) {
+  // check if active is the same year and month as monthDate
+  var activeDate = moment(active);
+  var date = moment(date);
+
+  return activeDate.year() === date.year() &&
+          activeDate.month() === date.month();
 };
 
 InlineDatepicker.prototype.prevMonth = function() {
