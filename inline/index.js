@@ -9,33 +9,41 @@ InlineDatepicker.prototype.init = function(model) {
   var currentDate = moment();
 
   this.updateCurrentDate(currentDate);
-  this.createDayView(currentDate.year(), currentDate.month());
-  this.dayView();
+  this.dayView(currentDate);
 };
 
 InlineDatepicker.prototype.gotoDayView = function(date) {
   var date = moment(date);
 
   this.updateCurrentDate(date);
-  this.createDayView(date.year(), date.month());
-  this.dayView();
+  this.dayView(date);
 };
 
 // TODO add month as argument (if no month passed, use currentDate)
-InlineDatepicker.prototype.dayView = function() {
+InlineDatepicker.prototype.dayView = function(date) {
   var model = this.model;
+
+  var date = date ? moment(date) : this.getCurrentDate();
+  var weeks = this.buildDayView(date.year(), date.month());
+  model.set('weeks', weeks);
+
   model.set('view', 'days');
+};
+
+InlineDatepicker.prototype.gotoMonthView = function() {
+  this.monthView();
 };
 
 InlineDatepicker.prototype.monthView = function() {
   var model = this.model;
 
-  this.createMonthView();
+  var months = this.buildMonthView();
+  model.set('months', months);
 
   model.set('view', 'months');
 };
 
-InlineDatepicker.prototype.createMonthView = function() {
+InlineDatepicker.prototype.buildMonthView = function() {
   var model = this.model;
 
   var months = [];
@@ -47,7 +55,43 @@ InlineDatepicker.prototype.createMonthView = function() {
     date.add('months', 1);
   }
 
-  model.set('months', months);
+  return months;
+};
+
+InlineDatepicker.prototype.gotoYearView = function(date) {
+  this.buildYearView();
+
+  this.model.set('view', 'years');
+};
+
+InlineDatepicker.prototype.buildYearView = function(date) {
+  var model = this.model;
+
+  var years = [];
+
+
+  var date = moment();
+
+  var currentYear = date.year();
+
+  var yearInDecade = currentYear % 10;
+
+  var year = date.subtract('years', yearInDecade);
+
+  for (var i = 0; i < 10; i++) {
+    years.push( year.year() );
+
+    year.add('years', 1);
+  }
+
+  model.set('years', years);
+  // if year 2011, then 2009 should be the first year?
+
+  // get the current year
+
+  // should start from 9?
+
+  // end with 19?
 };
 
 InlineDatepicker.prototype.updateCurrentDate = function(currentDate) {
@@ -116,7 +160,7 @@ InlineDatepicker.prototype.nextMonth = function() {
   // updatedateView with month
 };
 
-InlineDatepicker.prototype.createDayView = function(year, month) {
+InlineDatepicker.prototype.buildDayView = function(year, month) {
   var model = this.model;
 
   var currentDate = moment({ year: year, month: month });
@@ -134,7 +178,7 @@ InlineDatepicker.prototype.createDayView = function(year, month) {
     weeks.push(allDates.splice(0, 7));
   }
 
-  model.set('weeks', weeks);
+  return weeks;
 
   function getDaysInCurrentMonth(currentDate) {
     var dates = [];

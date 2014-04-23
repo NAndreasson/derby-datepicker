@@ -6,6 +6,9 @@
     {{if view === 'months'}}
       <view name="months"></view>
     {{/if}}
+    {{if view === 'years'}}
+      <view name="years"></view>
+    {{/if}}
   </div>
 
 <months:>
@@ -14,7 +17,7 @@
       <thead>
         <tr>
           <th class="prev" style="visibility: visible;">«</th>
-          <th colspan="5" class="datepicker-switch">{{getYear(currentDate)}}</th>
+          <th on-click="gotoYearView()" colspan="5" class="datepicker-switch">{{getYear(currentDate)}}</th>
           <th class="next" style="visibility: visible;">»</th>
         </tr
       ></thead>
@@ -36,7 +39,7 @@
       <thead>
         <tr>
           <th on-click="prevMonth()" class="prev" style="visibility: visible;">«</th>
-          <th colspan="5" on-click="monthView()" class="datepicker-switch">{{getMonth(currentDate)}} {{getYear(currentDate)}}</th>
+          <th colspan="5" on-click="gotoMonthView()" class="datepicker-switch">{{getMonth(currentDate)}} {{getYear(currentDate)}}</th>
           <th on-click="nextMonth()" class="next" style="visibility: visible;">»</th>
         </tr>
         <tr>
@@ -57,6 +60,28 @@
         {{/each}}
         </tr>
       {{/each}}
+      </tbody>
+    </table>
+  </div>
+
+<years:>
+  <div class="datepicker-years" style="display: block;">
+    <table class="table-condensed">
+      <thead>
+        <tr>
+          <th class="prev" style="visibility: visible;">«</th>
+          <th colspan="5" class="datepicker-switch">2010-2019</th>
+          <th class="next" style="visibility: visible;">»</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="7">
+          {{each years as #year}}
+            <span class="year">{{#year}}</span>
+          {{/each}}
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>
