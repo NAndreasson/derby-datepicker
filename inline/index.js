@@ -69,17 +69,16 @@ InlineDatepicker.prototype.buildYearView = function(date) {
 
   var years = [];
 
-
   var date = moment();
-
   var currentYear = date.year();
+  var nrYearsIntoDecade = currentYear % 10;
 
-  var yearInDecade = currentYear % 10;
+  var year = date.subtract('years', nrYearsIntoDecade + 1);
 
-  var year = date.subtract('years', yearInDecade);
-
-  for (var i = 0; i < 10; i++) {
-    years.push( year.year() );
+  for (var i = 0; i <= 11; i++) {
+    var inDecade = i > 0 && i < 11;
+    console.log('IN decade', inDecade);
+    years.push({ year: year.year(), inDecade: inDecade });
 
     year.add('years', 1);
   }
@@ -141,8 +140,7 @@ InlineDatepicker.prototype.prevMonth = function() {
   // calculate previous month from date
   var prevMonthDate = currentDate.subtract('months', 1);
 
-  this.createDayView(prevMonthDate.year(), prevMonthDate.month());
-  this.updateCurrentDate(prevMonthDate);
+  this.gotoDayView(prevMonthDate);
   // update current date
   // updatedateView with month
 };
@@ -154,8 +152,7 @@ InlineDatepicker.prototype.nextMonth = function() {
   // calculate previous month from date
   var nextMonthDate = currentDate.add('months', 1);
 
-  this.createDayView(nextMonthDate.year(), nextMonthDate.month());
-  this.updateCurrentDate(nextMonthDate);
+  this.gotoDayView(nextMonthDate);
   // update current date
   // updatedateView with month
 };

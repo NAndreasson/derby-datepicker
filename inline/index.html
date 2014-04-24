@@ -78,7 +78,7 @@
         <tr>
           <td colspan="7">
           {{each years as #year}}
-            <span class="year">{{#year}}</span>
+            <span class="year {{if !#year.inDecade}}old{{/if}}">{{#year.year}}</span>
           {{/each}}
           </td>
         </tr>
