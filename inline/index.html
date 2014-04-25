@@ -1,17 +1,17 @@
 <index: element="datepicker">
   <div class="datepicker datepicker-inline">
-    {{if view === 'days'}}
-    <view name="days"></view>
+    {{if view === 'month'}}
+    <view name="month"></view>
     {{/if}}
-    {{if view === 'months'}}
-      <view name="months"></view>
+    {{if view === 'year'}}
+      <view name="year"></view>
     {{/if}}
-    {{if view === 'years'}}
-      <view name="years"></view>
+    {{if view === 'decade'}}
+      <view name="decade"></view>
     {{/if}}
   </div>
 
-<months:>
+<year:>
   <div class="datepicker-months">
     <table class="table-condensed">
       <thead>
@@ -33,13 +33,13 @@
     </table>
   </div>
 
-<days:>
+<month:>
   <div class="datepicker-days">
     <table class="table-condensed">
       <thead>
         <tr>
           <th on-click="prevMonth()" class="prev" style="visibility: visible;">«</th>
-          <th colspan="5" on-click="gotoMonthView()" class="datepicker-switch">{{getMonth(currentDate)}} {{getYear(currentDate)}}</th>
+          <th colspan="5" on-click="gotoYearView()" class="datepicker-switch">{{getMonth(currentDate)}} {{getYear(currentDate)}}</th>
           <th on-click="nextMonth()" class="next" style="visibility: visible;">»</th>
         </tr>
         <tr>
@@ -64,7 +64,7 @@
     </table>
   </div>
 
-<years:>
+<decade:>
   <div class="datepicker-years" style="display: block;">
     <table class="table-condensed">
       <thead>
