@@ -11,28 +11,6 @@
     {{/if}}
   </div>
 
-<year:>
-  <div class="datepicker-months">
-    <table class="table-condensed">
-      <thead>
-        <tr>
-          <th on-click="prevYear()" class="prev" style="visibility: visible;">«</th>
-          <th on-click="gotoDecadeView(currentDate)" colspan="5" class="datepicker-switch">{{getYear(currentDate)}}</th>
-          <th on-click="nextYear()" class="next" style="visibility: visible;">»</th>
-        </tr
-      ></thead>
-      <tbody>
-        <tr>
-          <td colspan="7">
-          {{each months as #month}}
-            <span on-click="gotoDayView(#month.date)" class="month {{if activeMonth(active, #month.date)}}active{{/if}}">{{#month.abbr}}</span>
-          {{/each}}
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
 <month:>
   <div class="datepicker-days">
     <table class="table-condensed">
@@ -64,14 +42,36 @@
     </table>
   </div>
 
+<year:>
+  <div class="datepicker-months">
+    <table class="table-condensed">
+      <thead>
+        <tr>
+          <th on-click="prevYear()" class="prev" style="visibility: visible;">«</th>
+          <th on-click="gotoDecadeView(currentDate)" colspan="5" class="datepicker-switch">{{getYear(currentDate)}}</th>
+          <th on-click="nextYear()" class="next" style="visibility: visible;">»</th>
+        </tr
+      ></thead>
+      <tbody>
+        <tr>
+          <td colspan="7">
+          {{each months as #month}}
+            <span on-click="gotoDayView(#month.date)" class="month {{if activeMonth(active, #month.date)}}active{{/if}}">{{#month.abbr}}</span>
+          {{/each}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
 <decade:>
   <div class="datepicker-years" style="display: block;">
     <table class="table-condensed">
       <thead>
         <tr>
-          <th class="prev" style="visibility: visible;">«</th>
-          <th colspan="5" class="datepicker-switch">2010-2019</th>
-          <th class="next" style="visibility: visible;">»</th>
+          <th on-click="prevDecade()" class="prev" style="visibility: visible;">«</th>
+          <th colspan="5" class="datepicker-switch">{{getDecadeRange(currentDate)}}</th>
+          <th on-click="nextDecade()" class="next" style="visibility: visible;">»</th>
         </tr>
       </thead>
       <tbody>

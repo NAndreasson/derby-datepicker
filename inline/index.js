@@ -117,22 +117,22 @@ InlineDatepicker.prototype.buildDecadeView = function(date) {
   // end with 19?
 };
 
-InlineDatepicker.prototype.setCurrentDate = function(currentDate) {
+InlineDatepicker.prototype.prevDecade = function() {
   var model = this.model;
-  model.set('currentDate', currentDate);
+
+  var currentDate = this.getCurrentDate();
+  var prevDecadeDate = currentDate.subract('years', 10);
+
+  this.gotoDecadeView(prevDecadeDate);
 };
 
-InlineDatepicker.prototype.getCurrentDate = function() {
+InlineDatepicker.prototype.nextDecade = function() {
   var model = this.model;
-  return model.get('currentDate').clone();
-}
 
-InlineDatepicker.prototype.getMonth = function(currentDate) {
-  return currentDate.format('MMMM');
-};
+  var currentDate = this.getCurrentDate();
+  var nextDecadeDate = currentDate.add('years', 10);
 
-InlineDatepicker.prototype.getYear = function(currentDate) {
-  return currentDate.format('YYYY');
+  this.gotoDecadeView(nextDecadeDate);
 };
 
 InlineDatepicker.prototype.select = function(selectedDate) {
@@ -145,22 +145,6 @@ InlineDatepicker.prototype.select = function(selectedDate) {
   if ( selectedMonth !== currentMonth ) this.gotoMonthView(date);
 
   model.set('active', selectedDate.fullDate);
-};
-
-InlineDatepicker.prototype.activeDate = function(active, date) {
-  var model = this.model;
-  var active = model.get('active');
-
-  return active === date;
-};
-
-InlineDatepicker.prototype.activeMonth = function(active, date) {
-  // check if active is the same year and month as monthDate
-  var activeDate = moment(active);
-  var date = moment(date);
-
-  return activeDate.year() === date.year() &&
-          activeDate.month() === date.month();
 };
 
 InlineDatepicker.prototype.prevMonth = function() {
@@ -259,4 +243,47 @@ InlineDatepicker.prototype.buildMonthView = function(year, month) {
       thisMonth: isCurrentMonth
     }
   }
+};
+
+InlineDatepicker.prototype.setCurrentDate = function(currentDate) {
+  var model = this.model;
+  model.set('currentDate', currentDate.clone());
+};
+
+InlineDatepicker.prototype.getCurrentDate = function() {
+  var model = this.model;
+  return model.get('currentDate').clone();
+}
+
+InlineDatepicker.prototype.getMonth = function(currentDate) {
+  return currentDate.format('MMMM');
+};
+
+InlineDatepicker.prototype.getYear = function(currentDate) {
+  return currentDate.format('YYYY');
+};
+
+InlineDatepicker.prototype.getDecadeRange = function(currentDate) {
+  var currentYear = currentDate.year();
+  var yearInDecade = currentYear % 10;
+
+  var firstYearInDecade = currentYear - yearInDecade;
+  var lastYearInDecade = firstYearInDecade + 9;
+  return firstYearInDecade + ' - ' + lastYearInDecade;
+};
+
+InlineDatepicker.prototype.activeDate = function(active, date) {
+  var model = this.model;
+  var active = model.get('active');
+
+  return active === date;
+};
+
+InlineDatepicker.prototype.activeMonth = function(active, date) {
+  // check if active is the same year and month as monthDate
+  var activeDate = moment(active);
+  var date = moment(date);
+
+  return activeDate.year() === date.year() &&
+          activeDate.month() === date.month();
 };
