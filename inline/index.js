@@ -31,7 +31,10 @@ InlineDatepicker.prototype.monthView = function(date) {
   model.set('view', 'month');
 };
 
-InlineDatepicker.prototype.gotoYearView = function() {
+InlineDatepicker.prototype.gotoYearView = function(date) {
+  var date = moment(date);
+
+  this.setCurrentDate(date);
   this.yearView();
 };
 
@@ -56,7 +59,32 @@ InlineDatepicker.prototype.buildYearView = function() {
   return months;
 };
 
+InlineDatepicker.prototype.nextYear = function() {
+  var model = this.model;
+  // get current month
+  var currentDate = this.getCurrentDate();
+  // calculate previous year from date
+  var nextYearDate = currentDate.add('years', 1);
+  this.gotoYearView(nextYearDate);
+};
+
+InlineDatepicker.prototype.prevYear = function() {
+  var model = this.model;
+  // get current month
+  var currentDate = this.getCurrentDate();
+  // calculate previous year from date
+  var prevYearDate = currentDate.subtract('years', 1);
+  this.gotoYearView(prevYearDate);
+};
+
 InlineDatepicker.prototype.gotoDecadeView = function(date) {
+  var date = moment(date);
+
+  this.setCurrentDate(date);
+  this.decadeView(date);
+};
+
+InlineDatepicker.prototype.decadeView = function(date) {
   var model = this.model;
   var years = this.buildDecadeView(date);
 
@@ -71,12 +99,11 @@ InlineDatepicker.prototype.buildDecadeView = function(date) {
   // how far into the decade are we, eg 1 year for 2011
   var yearsIntoDecade = currentYear % 10;
   // subract the number of years into the decade, and 1 more so for 2011 we want to start from 2009
-  var year = date.subtract('years', nrYearsIntoDecade + 1);
+  var year = date.subtract('years', yearsIntoDecade + 1);
 
   for (var i = 0; i <= 11; i++) {
     var yearInDecade = i > 0 && i < 11;
     years.push({ year: year.year(), inDecade: yearInDecade });
-
     year.add('years', 1);
   }
 
