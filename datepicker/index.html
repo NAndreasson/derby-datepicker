@@ -56,7 +56,7 @@
         <tr>
           <td colspan="7">
           {{each months as #month}}
-            <span on-click="gotoDayView(#month.date)" class="month {{if activeMonth(active, #month.date)}}active{{/if}}">{{#month.abbr}}</span>
+            <span on-click="gotoMonthView(#month.date)" class="month {{if activeMonth(active, #month.date)}}active{{/if}}">{{#month.abbr}}</span>
           {{/each}}
           </td>
         </tr>
@@ -78,7 +78,7 @@
         <tr>
           <td colspan="7">
           {{each years as #year}}
-            <span on-click="gotoYearView(#year.year)" class="year {{if !#year.inDecade}}old{{/if}}">{{#year.year}}</span>
+            <span on-click="gotoYearView(#year.year)" class="year {{if !#year.inDecade}}old{{/if}} {{if activeYear(active, #year.year)}}active{{/if}}">{{#year.year}}</span>
           {{/each}}
           </td>
         </tr>

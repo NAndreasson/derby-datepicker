@@ -1,17 +1,22 @@
+var util = require('util');
 var moment = require('moment');
+var ViewHelpers = require('./viewHelpers').ViewHelpers;
 
-module.exports = InlineDatepicker;
+module.exports = Datepicker;
 
-function InlineDatepicker() {}
-InlineDatepicker.prototype.view = __dirname;
+function Datepicker() {}
 
-InlineDatepicker.prototype.init = function(model) {
+util.inherits(Datepicker, ViewHelpers);
+
+Datepicker.prototype.view = __dirname;
+
+Datepicker.prototype.init = function(model) {
   var currentDate = new Date();
 
   this.gotoMonthView( currentDate );
 };
 
-InlineDatepicker.prototype.gotoMonthView = function(date) {
+Datepicker.prototype.gotoMonthView = function(date) {
   var date = moment(date);
 
   this.setCurrentDate(date);
@@ -19,7 +24,7 @@ InlineDatepicker.prototype.gotoMonthView = function(date) {
 };
 
 // TODO add month as argument (if no month passed, use currentDate)
-InlineDatepicker.prototype.monthView = function(date) {
+Datepicker.prototype.monthView = function(date) {
   var model = this.model;
 
   if ( !date ) return;
@@ -31,60 +36,60 @@ InlineDatepicker.prototype.monthView = function(date) {
   model.set('view', 'month');
 };
 
-InlineDatepicker.prototype.gotoYearView = function(date) {
-  var date = moment(date);
+Datepicker.prototype.gotoYearView = function(year) {
+  var date = moment({ year: year });
 
   this.setCurrentDate(date);
-  this.yearView();
+  this.yearView(date);
 };
 
-InlineDatepicker.prototype.yearView = function() {
+Datepicker.prototype.yearView = function(date) {
   var model = this.model;
-  var months = this.buildYearView();
+  var months = this.buildYearView(date);
 
   model.set('months', months);
   model.set('view', 'year');
 };
 
-InlineDatepicker.prototype.buildYearView = function() {
+Datepicker.prototype.buildYearView = function(date) {
   var model = this.model;
   var months = [];
-  var date = moment({ month: 0 });
+  var month = date.clone().month(0);
 
   for (var i = 0; i < 12; i++) {
-    months.push({ abbr: date.format('MMM'), date: date.format('YYYY-MM') });
-    date.add('months', 1);
+    months.push({ abbr: month.format('MMM'), date: month.format('YYYY-MM') });
+    month.add('months', 1);
   }
 
   return months;
 };
 
-InlineDatepicker.prototype.nextYear = function() {
+Datepicker.prototype.nextYear = function() {
   var model = this.model;
   // get current month
   var currentDate = this.getCurrentDate();
   // calculate previous year from date
   var nextYearDate = currentDate.add('years', 1);
-  this.gotoYearView(nextYearDate);
+  this.gotoYearView(nextYearDate.year());
 };
 
-InlineDatepicker.prototype.prevYear = function() {
+Datepicker.prototype.prevYear = function() {
   var model = this.model;
   // get current month
   var currentDate = this.getCurrentDate();
   // calculate previous year from date
   var prevYearDate = currentDate.subtract('years', 1);
-  this.gotoYearView(prevYearDate);
+  this.gotoYearView(prevYearDate.year());
 };
 
-InlineDatepicker.prototype.gotoDecadeView = function(date) {
+Datepicker.prototype.gotoDecadeView = function(date) {
   var date = moment(date);
 
   this.setCurrentDate(date);
   this.decadeView(date);
 };
 
-InlineDatepicker.prototype.decadeView = function(date) {
+Datepicker.prototype.decadeView = function(date) {
   var model = this.model;
   var years = this.buildDecadeView(date);
 
@@ -92,7 +97,7 @@ InlineDatepicker.prototype.decadeView = function(date) {
   model.set('view', 'decade');
 };
 
-InlineDatepicker.prototype.buildDecadeView = function(date) {
+Datepicker.prototype.buildDecadeView = function(date) {
   var model = this.model;
   var years = [];
   var currentYear = date.year();
@@ -108,25 +113,18 @@ InlineDatepicker.prototype.buildDecadeView = function(date) {
   }
 
   return years;
-  // if year 2011, then 2009 should be the first year?
-
-  // get the current year
-
-  // should start from 9?
-
-  // end with 19?
 };
 
-InlineDatepicker.prototype.prevDecade = function() {
+Datepicker.prototype.prevDecade = function() {
   var model = this.model;
 
   var currentDate = this.getCurrentDate();
-  var prevDecadeDate = currentDate.subract('years', 10);
+  var prevDecadeDate = currentDate.subtract('years', 10);
 
   this.gotoDecadeView(prevDecadeDate);
 };
 
-InlineDatepicker.prototype.nextDecade = function() {
+Datepicker.prototype.nextDecade = function() {
   var model = this.model;
 
   var currentDate = this.getCurrentDate();
@@ -135,7 +133,7 @@ InlineDatepicker.prototype.nextDecade = function() {
   this.gotoDecadeView(nextDecadeDate);
 };
 
-InlineDatepicker.prototype.select = function(selectedDate) {
+Datepicker.prototype.select = function(selectedDate) {
   var model = this.model;
 
   var date = moment(selectedDate.fullDate);
@@ -147,7 +145,7 @@ InlineDatepicker.prototype.select = function(selectedDate) {
   model.set('active', selectedDate.fullDate);
 };
 
-InlineDatepicker.prototype.prevMonth = function() {
+Datepicker.prototype.prevMonth = function() {
   var model = this.model;
   // get current month
   var currentDate = this.getCurrentDate();
@@ -159,7 +157,7 @@ InlineDatepicker.prototype.prevMonth = function() {
   // updatedateView with month
 };
 
-InlineDatepicker.prototype.nextMonth = function() {
+Datepicker.prototype.nextMonth = function() {
   var model = this.model;
   // get current month
   var currentDate = this.getCurrentDate();
@@ -171,7 +169,7 @@ InlineDatepicker.prototype.nextMonth = function() {
   // updatedateView with month
 };
 
-InlineDatepicker.prototype.buildMonthView = function(year, month) {
+Datepicker.prototype.buildMonthView = function(year, month) {
   var model = this.model;
 
   var currentDate = moment({ year: year, month: month });
@@ -245,45 +243,12 @@ InlineDatepicker.prototype.buildMonthView = function(year, month) {
   }
 };
 
-InlineDatepicker.prototype.setCurrentDate = function(currentDate) {
+Datepicker.prototype.setCurrentDate = function(currentDate) {
   var model = this.model;
   model.set('currentDate', currentDate.clone());
 };
 
-InlineDatepicker.prototype.getCurrentDate = function() {
+Datepicker.prototype.getCurrentDate = function() {
   var model = this.model;
   return model.get('currentDate').clone();
 }
-
-InlineDatepicker.prototype.getMonth = function(currentDate) {
-  return currentDate.format('MMMM');
-};
-
-InlineDatepicker.prototype.getYear = function(currentDate) {
-  return currentDate.format('YYYY');
-};
-
-InlineDatepicker.prototype.getDecadeRange = function(currentDate) {
-  var currentYear = currentDate.year();
-  var yearInDecade = currentYear % 10;
-
-  var firstYearInDecade = currentYear - yearInDecade;
-  var lastYearInDecade = firstYearInDecade + 9;
-  return firstYearInDecade + ' - ' + lastYearInDecade;
-};
-
-InlineDatepicker.prototype.activeDate = function(active, date) {
-  var model = this.model;
-  var active = model.get('active');
-
-  return active === date;
-};
-
-InlineDatepicker.prototype.activeMonth = function(active, date) {
-  // check if active is the same year and month as monthDate
-  var activeDate = moment(active);
-  var date = moment(date);
-
-  return activeDate.year() === date.year() &&
-          activeDate.month() === date.month();
-};
