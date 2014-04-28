@@ -153,8 +153,6 @@ Datepicker.prototype.prevMonth = function() {
   var prevMonthDate = currentDate.subtract('months', 1);
 
   this.gotoMonthView(prevMonthDate);
-  // update current date
-  // updatedateView with month
 };
 
 Datepicker.prototype.nextMonth = function() {
@@ -165,8 +163,6 @@ Datepicker.prototype.nextMonth = function() {
   var nextMonthDate = currentDate.add('months', 1);
 
   this.gotoMonthView(nextMonthDate);
-  // update current date
-  // updatedateView with month
 };
 
 Datepicker.prototype.buildMonthView = function(year, month) {
