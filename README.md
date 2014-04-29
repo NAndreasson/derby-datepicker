@@ -6,6 +6,8 @@ Datepicker component for derby.js.
 At the time being there is only an inline version. If you have any suggestions or improvements, open an issue or send a pull request!
 
 
+![https://github.com/NAndreasson/derby-datepicker/blob/gh-pages/images/datepicker.png](https://github.com/NAndreasson/derby-datepicker/blob/gh-pages/images/datepicker.png)
+
 Please note that this project is inspired by [Bootstrap-datepicker](https://github.com/eternicode/bootstrap-datepicker), and makes use of a css-file from that project.
 
 Format
