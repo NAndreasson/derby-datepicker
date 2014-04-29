@@ -3,6 +3,7 @@
   "description": "A datepicker for Derby.js (bootstrap theme).",
   "version": "0.1.0",
   "homepage": "https://github.com/NAndreasson/derby-datepicker",
+  "author": "Niklas Andréasson <niklas@nandreasson.se> (http://nandreasson.se)",
   "repository": {
     "type": "git",
     "url": "git://github.com/NAndreasson/derby-datepicker.git"
