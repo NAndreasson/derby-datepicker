@@ -3,15 +3,15 @@ var moment = require('moment');
 function ViewHelpers() {}
 
 ViewHelpers.prototype.getMonth = function(currentDate) {
-  return currentDate.format('MMMM');
+  return moment(currentDate).format('MMMM');
 };
 
 ViewHelpers.prototype.getYear = function(currentDate) {
-  return currentDate.format('YYYY');
+  return moment(currentDate).format('YYYY');
 };
 
 ViewHelpers.prototype.getDecadeRange = function(currentDate) {
-  var currentYear = currentDate.year();
+  var currentYear = moment(currentDate).year();
   var yearInDecade = currentYear % 10;
 
   var firstYearInDecade = currentYear - yearInDecade;

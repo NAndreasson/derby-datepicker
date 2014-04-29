@@ -14,7 +14,7 @@ Datepicker.prototype.view = __dirname;
 Datepicker.prototype.init = function(model) {
   var currentDate = new Date();
 
-  this.gotoMonthView( currentDate );
+  this.gotoMonthView(currentDate);
 };
 
 Datepicker.prototype.gotoMonthView = function(date) {
@@ -37,10 +37,10 @@ Datepicker.prototype.monthView = function(date) {
   model.set('view', 'month');
 };
 
-Datepicker.prototype.gotoYearView = function(year) {
-  var date = moment({ year: year });
+Datepicker.prototype.gotoYearView = function(date) {
+  var date = moment(date, 'YYYY-MM-DD');
 
-  this.setCurrentDate(date);
+  this.setCurrentDate(date, 'YYYY-MM-DD');
   this.yearView(date);
 };
 
@@ -55,19 +55,19 @@ Datepicker.prototype.yearView = function(date) {
 Datepicker.prototype.nextYear = function() {
   var model = this.model;
   // get current month
-  var currentDate = this.getCurrentDate();
+  var currentDate = moment(this.getCurrentDate());
   // calculate previous year from date
   var nextYearDate = currentDate.add('years', 1);
-  this.gotoYearView(nextYearDate.year());
+  this.gotoYearView(nextYearDate);
 };
 
 Datepicker.prototype.prevYear = function() {
   var model = this.model;
   // get current month
-  var currentDate = this.getCurrentDate();
+  var currentDate = moment(this.getCurrentDate());
   // calculate previous year from date
   var prevYearDate = currentDate.subtract('years', 1);
-  this.gotoYearView(prevYearDate.year());
+  this.gotoYearView(prevYearDate);
 };
 
 Datepicker.prototype.gotoDecadeView = function(date) {
@@ -88,7 +88,7 @@ Datepicker.prototype.decadeView = function(date) {
 Datepicker.prototype.prevDecade = function() {
   var model = this.model;
 
-  var currentDate = this.getCurrentDate();
+  var currentDate = moment(this.getCurrentDate());
   var prevDecadeDate = currentDate.subtract('years', 10);
 
   this.gotoDecadeView(prevDecadeDate);
@@ -97,7 +97,7 @@ Datepicker.prototype.prevDecade = function() {
 Datepicker.prototype.nextDecade = function() {
   var model = this.model;
 
-  var currentDate = this.getCurrentDate();
+  var currentDate = moment(this.getCurrentDate());
   var nextDecadeDate = currentDate.add('years', 10);
 
   this.gotoDecadeView(nextDecadeDate);
@@ -108,7 +108,8 @@ Datepicker.prototype.select = function(selectedDate) {
 
   var date = moment(selectedDate.fullDate);
   var selectedMonth = date.month();
-  var currentMonth = this.getCurrentDate().month();
+  var currentDate = moment(this.getCurrentDate());
+  var currentMonth = currentDate.month();
 
   if ( selectedMonth !== currentMonth ) this.gotoMonthView(date);
 
@@ -118,7 +119,7 @@ Datepicker.prototype.select = function(selectedDate) {
 Datepicker.prototype.prevMonth = function() {
   var model = this.model;
   // get current month
-  var currentDate = this.getCurrentDate();
+  var currentDate = moment(this.getCurrentDate());
   // calculate previous month from date
   var prevMonthDate = currentDate.subtract('months', 1);
 
@@ -128,7 +129,7 @@ Datepicker.prototype.prevMonth = function() {
 Datepicker.prototype.nextMonth = function() {
   var model = this.model;
   // get current month
-  var currentDate = this.getCurrentDate();
+  var currentDate = moment(this.getCurrentDate());
   // calculate previous month from date
   var nextMonthDate = currentDate.add('months', 1);
 
@@ -137,10 +138,10 @@ Datepicker.prototype.nextMonth = function() {
 
 Datepicker.prototype.setCurrentDate = function(currentDate) {
   var model = this.model;
-  model.set('currentDate', currentDate.clone());
+  model.set('currentDate', currentDate);
 };
 
 Datepicker.prototype.getCurrentDate = function() {
   var model = this.model;
-  return model.get('currentDate').clone();
+  return model.get('currentDate');
 }

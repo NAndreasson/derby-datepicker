@@ -1,9 +1,10 @@
+var moment = require('moment');
 
 exports.buildYearView = buildYearView;
 function buildYearView (date) {
   var model = this.model;
   var months = [];
-  var month = date.clone().month(0);
+  var month = moment(date).month(0);
 
   for (var i = 0; i < 12; i++) {
     months.push({ abbr: month.format('MMM'), date: month.format('YYYY-MM') });
@@ -18,6 +19,7 @@ exports.buildDecadeView = buildDecadeView;
 function buildDecadeView(date) {
   var model = this.model;
   var years = [];
+  var date = moment(date);
   var currentYear = date.year();
   // how far into the decade are we, eg 1 year for 2011
   var yearsIntoDecade = currentYear % 10;
@@ -38,6 +40,8 @@ function buildDecadeView(date) {
 exports.buildMonthView = buildMonthView;
 function buildMonthView(date) {
   var model = this.model;
+
+  var date = moment(date);
 
   var datesFromPrevMonth = addExtraDaysFromPrevMonth(date.clone());
   var datesInCurrentMonth = getDaysInCurrentMonth(date.clone());

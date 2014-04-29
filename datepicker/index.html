@@ -17,7 +17,7 @@
       <thead>
         <tr>
           <th on-click="prevMonth()" class="prev" style="visibility: visible;">«</th>
-          <th colspan="5" on-click="gotoYearView()" class="datepicker-switch">{{getMonth(currentDate)}} {{getYear(currentDate)}}</th>
+          <th colspan="5" on-click="gotoYearView(currentDate)" class="datepicker-switch">{{getMonth(currentDate)}} {{getYear(currentDate)}}</th>
           <th on-click="nextMonth()" class="next" style="visibility: visible;">»</th>
         </tr>
         <tr>
