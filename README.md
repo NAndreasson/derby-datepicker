@@ -24,7 +24,7 @@ First of make sure to install derby-datepicker through npm `npm install derby-da
 Including
 --------
     
-    app.component(require('derby-datepicker'));
+    app.use(require('derby-datepicker'));
         
 In template
 -------
